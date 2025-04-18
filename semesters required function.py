@@ -44,7 +44,53 @@ prereqs = [
 semesters_required(num_courses, prereqs) # -> 5
 
 
-sol--
+#sol--
+
+
+
+def semesters_required(num_courses, prereqs):
+  graph = buildgraph(num_courses, prereqs)
+
+  dist ={}
+  for course in graph:
+    if len(graph[course]) ==0:
+      dist[course] =1
+
+  
+  for course in graph:
+    traversr(graph, course, dist)
+  return max(dist.values())
+ 
+
+def buildgraph (num_courses, prereqs):
+  graph ={}
+  for course in range(0, num_courses):
+    graph[course] =[]
+  for prereq in prereqs:
+    a,b = prereq
+    graph[a].append(b)
+
+  return graph
+
+
+
+
+def traversr (graph, node, dist):
+  if node in dist:
+    return dist[node]
+  maxdis=0
+  for ne in graph[node]:
+    nedis = traversr(graph, ne, dist)
+    if nedis >maxdis:
+      maxdis=nedis
+  dist[node] =1+ maxdis
+  return dist[node]
+      
+    
+
+
+
+#------------------------------
 
 def semesters_required(num_courses, prereqs):
   graph = build_graph(num_courses, prereqs)
